@@ -224,8 +224,6 @@ border:1px solid #ffffff26;text-align:center;animation:pop .35s ease
 @keyframes spark{to{transform:translate(var(--x),var(--y));opacity:0}}
 .fire{position:fixed;width:5px;height:5px;border-radius:50%;background:#ffc1e0;pointer-events:none;animation:fire 1.1s ease-out forwards}
 @keyframes fire{to{transform:translate(var(--x),var(--y));opacity:0}}
-.music{position:fixed;right:14px;top:14px;z-index:50;width:42px;height:42px;padding:0;margin:0;border-radius:50%;font-size:17px}
-
 @media(max-width:380px){
 h1{font-size:35px}
 h2{font-size:27px}
@@ -239,8 +237,6 @@ h2{font-size:27px}
 </head>
 
 <body>
-
-<button class="music" onclick="toggleMusic()" id="musicBtn">♫</button>
 
 <!-- PAGE 1: SECRET ENTRY -->
 <section class="page active" id="p1">
@@ -465,11 +461,9 @@ ontouchstart="startHold()" ontouchend="endHold()">
 <p id="popText"></p>
 <button onclick="closePopup()">Aww ♡</button>
 </div>
-</div>"
+</div>
 <script>
 let current=1;
-let musicOn=false;
-let audioCtx,osc,gain;
 
 /* PAGE CONTROL */
 function showPage(n){
@@ -564,8 +558,8 @@ function popBalloon(el,i){
 
   popped++;
 
-  if(popped===5){
-    document.getElementById("balloonHint").textContent=
+  if(popped===5
+     document.getElementById("balloonHint").textContent=
       "All five surprises are yours now. ❤️";
 
     document.getElementById("balloonNext").style.display="inline-block";
@@ -881,43 +875,6 @@ function startLetterTyping(){
   setTimeout(()=>{
     finalBtn.style.display="inline-block";
   },900);
-}
-
-/* MUSIC */
-function toggleMusic(){
-  const btn=document.getElementById("musicBtn");
-
-  if(!musicOn){
-    try{
-      audioCtx=new(window.AudioContext||window.webkitAudioContext)();
-
-      if(audioCtx.state==="suspended")audioCtx.resume();
-
-      osc=audioCtx.createOscillator();
-      gain=audioCtx.createGain();
-
-      osc.type="sine";
-      osc.frequency.value=261.63;
-      gain.gain.value=.025;
-
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start();
-
-      musicOn=true;
-      btn.textContent="♫";
-    }catch(e){
-      btn.textContent="×";
-    }
-  }else{
-    if(osc){
-      osc.stop();
-      osc=null;
-    }
-
-    =false;
-    btn.textContent="♫";
-  }
 }
 
 /* FINAL PAGE AUTO FIREWORKS */
